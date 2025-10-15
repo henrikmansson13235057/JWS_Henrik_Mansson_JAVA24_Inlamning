@@ -46,6 +46,7 @@ public class SakController {
                 .toList();
     }
 
+
     @Operation(summary = "Boka en sak")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Saken bokades framgångsrikt"),

@@ -2,6 +2,7 @@ package com.fulkoping.uthyrning.service;
 
 import com.fulkoping.uthyrning.model.Bokning;
 import com.fulkoping.uthyrning.repository.BokningRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,6 @@ public class BokningService {
     public BokningService(BokningRepository bokningRepository) {
         this.bokningRepository = bokningRepository;
     }
-
 
     public boolean isAvailable(Bokning bokning, Long excludeId) {
         if (bokning.getStartDatum() == null || bokning.getSlutDatum() == null) {
@@ -34,11 +34,10 @@ public class BokningService {
                 excludeId
         );
     }
+
     public List<Bokning> getAll() {
         return bokningRepository.findAll();
     }
-
-
 
     public Bokning boka(Bokning bokning) {
         if (!isAvailable(bokning, null)) {
@@ -53,7 +52,6 @@ public class BokningService {
 
     public Bokning update(Long id, Bokning updated) {
         return bokningRepository.findById(id).map(existing -> {
-
             existing.setPerson(updated.getPerson());
             existing.setSak(updated.getSak());
             existing.setStartDatum(updated.getStartDatum());
@@ -65,7 +63,14 @@ public class BokningService {
         }).orElseThrow(() -> new IllegalArgumentException("Bokning hittades inte"));
     }
 
+    @Transactional
     public void delete(Long id) {
-        bokningRepository.deleteById(id);
+        bokningRepository.findById(id).ifPresent(bokning -> {
+            if (bokning.getSak() != null) {
+                var sak = bokning.getSak();
+                sak.setAvailableQuantity(sak.getAvailableQuantity() + 1);
+            }
+            bokningRepository.delete(bokning);
+        });
     }
 }
