@@ -53,7 +53,7 @@ public class BokningService {
 
     public Bokning update(Long id, Bokning updated) {
         return bokningRepository.findById(id).map(existing -> {
-            // validate and check availability while excluding current booking id
+
             existing.setPerson(updated.getPerson());
             existing.setSak(updated.getSak());
             existing.setStartDatum(updated.getStartDatum());

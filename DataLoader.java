@@ -18,7 +18,6 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("=== Lagerinventering ===");
 
-        // Skapa saker
         Sak sak1 = new Sak();
         sak1.setName("Cykel");
         sak1.setTyp("Fordon");
@@ -34,12 +33,12 @@ public class DataLoader implements CommandLineRunner {
         sak3.setTyp("Elektronik");
         sak3.setTotalQuantity(2);
 
-        // Spara i repository
+
         sakRepository.save(sak1);
         sakRepository.save(sak2);
         sakRepository.save(sak3);
 
-        // Hämta alla saker och skriv ut
+
         sakRepository.findAll().forEach(sak ->
                 System.out.println("Sak: " + sak.getName() +
                         ", Typ: " + sak.getTyp() +

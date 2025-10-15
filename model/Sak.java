@@ -1,9 +1,13 @@
 package com.fulkoping.uthyrning.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
+
 
 @Entity
 public class Sak {
@@ -19,7 +23,7 @@ public class Sak {
     private int totalQuantity;
     private int availableQuantity;
 
-    @OneToMany(mappedBy = "sak", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sak", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Bokning> bokningar;
 
