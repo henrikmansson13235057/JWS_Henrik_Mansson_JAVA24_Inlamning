@@ -1,6 +1,5 @@
-package com.fulkoping.uthyrning;
+package com.fulkoping.uthyrning.misc;
 
-import com.fulkoping.uthyrning.model.Sak;
 import com.fulkoping.uthyrning.repository.SakRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
